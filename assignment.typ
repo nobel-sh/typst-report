@@ -1,68 +1,52 @@
-#let standard_block(content, alignment: center, weight: "bold", size: 14pt) = {
-    set align(alignment)
-    set text(weight: weight, size: size)
+#let spaced_block(content,space: 2em) = {
     block(content)
-}
-
-#let spaced_block(content,space: 2em, alignment: center, weight: "bold", size: 14pt) = {
-    standard_block(content, alignment: alignment, weight: weight, size: size)
     v(space)
 }
 
 #let image_block(path, width, margin: 2em) = {
-    set align(center)
     v(margin)
     block(image(path, width: width))
     v(margin)
 }
 
-#let section(title:none, content, space: 1.5em) = {
-    if title!= none{
-        standard_block([#title])
-    }
-    standard_block(content)
-    v(space)
-}
-
 #let render_university_info(info) = {
     let university = info.university
 
-    standard_block(university.name)
-    standard_block(university.department)
-    standard_block(university.location)
+    block(university.name)
+    block(university.department)
+    block(university.location)
     image_block(university.logo, 6cm, margin:1.5em)
- }
+}
 
 #let render_course_info(info)= {
     let course = info.course
     let activity = info.activity
 
-    standard_block(course.code)
-    standard_block(course.title)
+    block(course.code)
+    block(course.title)
     if "description" in activity {
-        standard_block(activity.title)
+        block(activity.title)
         spaced_block(["#activity.description"])
     } else {
         spaced_block(activity.title)
     }
-
 }
 
-#let render_submission_details(info, current_date) = {
+#let render_submission_info(info, current_date) = {
     let student = info.student
     let tutor = info.tutor
 
-    standard_block("Submitted by")
+    block("Submitted by")
     spaced_block([#student.name (#student.roll_no)])
 
-    standard_block("Submitted to")
-    standard_block(tutor.name)
+    block("Submitted to")
+    block(tutor.name)
     if "post" in tutor {
-        standard_block(tutor.post)
+        block(tutor.post)
     }
     spaced_block(tutor.department, space: 1.5em)
 
-    standard_block("Submission Date")
+    block("Submission Date")
     spaced_block(current_date)
 }
 
@@ -74,14 +58,23 @@
         datetime.today().display("[month repr:long] [day], [year]")
     }
 
-    set document(author: info.student.name, title: info.activity.title)
+    set document(
+        author: info.student.name,
+        title: info.activity.title,
+    )
     set heading(numbering: "1.")
+
+    // Front page
+    set align(center)
+    set text(weight: "bold", size: 14pt)
 
     render_university_info(info)
     render_course_info(info)
-    render_submission_details(info, current_date)
+    render_submission_info(info, current_date)
     pagebreak()
 
+    // Table of Content
+    set text(weight: "regular")
     show outline.entry.where(level: 1): body => {
        v(8pt)
        strong(body)
@@ -91,13 +84,10 @@
         text("Table of Contents")
         v(1em)
     })
+
+    set text(size: 12pt)
     outline(depth:3, indent: 2em, fill: repeat([-]))
     pagebreak()
-    set page(
-        numbering: "1",
-        number-align: center,
-    )
-    counter(page).update(1)
     body
 }
 
@@ -115,7 +105,6 @@
   text(
     fill: red,
     weight: "bold",
-      [TODO: #body
-      ]
+      [TODO: #body]
   )
 }
