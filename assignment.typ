@@ -1,8 +1,7 @@
 #let standard_block(content, alignment: center, weight: "bold", size: 14pt) = {
-  set align(alignment)
-  set text(weight: weight, size: size)
-
-  block(content)
+    set align(alignment)
+    set text(weight: weight, size: size)
+    block(content)
 }
 
 #let spaced_block(content,space: 2em, alignment: center, weight: "bold", size: 14pt) = {
@@ -11,11 +10,10 @@
 }
 
 #let image_block(path, width, margin: 2em) = {
-  set align(center)
-
-  v(margin)
-  block(image(path, width: width))
-  v(margin)
+    set align(center)
+    v(margin)
+    block(image(path, width: width))
+    v(margin)
 }
 
 #let section(title:none, content, space: 1.5em) = {
@@ -70,7 +68,6 @@
 
 #let assignment(body) = {
     let info = toml("config.toml")
-
     let current_date = if "date" in info {
         info.date
     } else {
@@ -78,7 +75,6 @@
     }
 
     set document(author: info.student.name, title: info.activity.title)
-    set text(font: "Times New Roman", size: 11pt, lang: "en")
     set heading(numbering: "1.")
 
     render_university_info(info)
@@ -86,19 +82,24 @@
     render_submission_details(info, current_date)
     pagebreak()
 
-    outline(depth: 3, indent: true)
+    show outline.entry.where(level: 1): body => {
+       v(8pt)
+       strong(body)
+    }
+    set outline(
+      title:{
+        text("Table of Contents")
+        v(1em)
+    })
+    outline(depth:3, indent: 2em, fill: repeat([-]))
     pagebreak()
-
     set page(
         numbering: "1",
         number-align: center,
-        margin: (top: 2.5cm, bottom: 2.5cm, left: 2.5cm, right: 2.5cm)
     )
     counter(page).update(1)
-
     body
 }
-
 
 // Misc items
 #let note(body) = {
@@ -114,6 +115,7 @@
   text(
     fill: red,
     weight: "bold",
-    [TODO: #body]
+      [TODO: #body
+      ]
   )
 }
