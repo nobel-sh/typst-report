@@ -1,0 +1,25 @@
+[university]
+name = "Kathmandu University"
+department = "Department of Computer Science and Engineering"
+location = "Dhulikhel, Kavre"
+logo = "./assets/uni_logo.png"
+
+[tutor]
+name = "Dr. Alice"
+department = "Department of Computer Science and Engineering"
+post = "Associate Professor"  #optional
+
+[course]
+title = "Computer Graphics"
+code = "COMP 342"
+
+[activity]
+title = "Lab report 2"
+description = "Line Drawing Algorithms" #optional
+
+[student]
+name = "Bob"
+roll_no = "56"
+
+# Uncomment for custom date.
+# date = 2024-07-17
