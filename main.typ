@@ -4,12 +4,10 @@
 
 = Introduction
 Write your introduction here.
-
 #note[This is an important note about the assignment.]
 
-= Methodology
+= Implementation
 Explain your methodology here.
-
 #todo[Add more details about the data collection process.]
 
 = Results
